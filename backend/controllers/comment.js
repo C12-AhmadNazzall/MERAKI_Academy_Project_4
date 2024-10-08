@@ -53,9 +53,21 @@ const UpdateComment = (req , res)=>{
 }
 const deleteCommentById = (req,res)=>{
     commentModel.findByIdAndDelete(req.params.id).then((response)=>{
-        res.status(201).json({
-            message : "Comment Deleted Successfully"
+        postsModel.findByIdAndUpdate(
+            {_id : req.params.postId},
+            {$pull : {comments: response._id} } ,
+            {new : true}
+        ).then((resp)=>{
+            res.status(201).json({
+                message : "Comment Deleted Successfully"
+                ,res:resp
+            })
+            
+        }).catch((err)=>{
+            console.log(err);
+            
         })
+        
     }).catch((err)=>{
         res.status(500).json({
             err : err

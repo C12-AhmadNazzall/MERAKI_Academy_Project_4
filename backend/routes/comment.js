@@ -10,6 +10,6 @@ commentRouter.post(
   creatComment
 );
 commentRouter.put('/:id' , authentication , UpdateComment)
-commentRouter.delete('/:id' , authentication , deleteCommentById)
+commentRouter.delete('/:id/:postId' , authentication , deleteCommentById)
 
 module.exports = commentRouter;

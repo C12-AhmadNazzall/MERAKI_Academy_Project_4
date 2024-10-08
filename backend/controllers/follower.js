@@ -32,4 +32,27 @@ const addFollower = (req, res) => {
         })
     })}
 };
-module.exports = {addFollower}
+const deleteFolower = (req,res)=>{
+   
+    followersModel.findByIdAndDelete(req.params.id)
+    .then((response)=>{
+      
+        
+        userModel.findByIdAndUpdate(
+            {_id : req.params.userId ,},
+            { $pull: { followers: response.user } },
+            { new: true }
+        ).then((resp)=>{
+            res.status(201).json({
+                message : "Follower Deleted Successfully"
+            })
+        })
+    }).catch((err)=>{
+        console.log(err);
+        
+        res.status(500).json({
+            err : err
+        })
+    })
+}
+module.exports = {addFollower , deleteFolower}

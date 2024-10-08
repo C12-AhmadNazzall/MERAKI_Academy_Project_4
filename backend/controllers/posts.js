@@ -1,3 +1,4 @@
+const { response } = require("express");
 const postsModel = require("../models/postsSchema");
 const userModel = require('../models/userSchema')
 const creatNewPost = (req, res) => {
@@ -89,9 +90,27 @@ const DeleteById = (req,res)=>{
     postsModel
     .findByIdAndDelete(
         req.params.id
-    ).then((res.status(201).json({
-        message : "Post Deleted successfully"
-    }))).catch((err)=>{
+    ).then((response)=>{
+       
+        
+        userModel
+        .findByIdAndUpdate(
+          { _id: req.token.userId },
+          { $pull: { Posts: response._id } },
+          { new: true }
+        )
+        .then((resp)=>{
+           
+            
+            res.status(201).json({
+                message : "Post Deleted successfully"
+            
+           })
+        })
+    }
+    )
+   
+    .catch((err)=>{
         res.status(500).json({
             err : err
         })

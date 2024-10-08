@@ -11,7 +11,7 @@ const register = (req, res) => {
     phoneNumber,
     role: "6702e78491ebbce271d05d93",
   });
-
+  
   user
     .save()
     .then((response) => {
