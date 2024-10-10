@@ -1,0 +1,63 @@
+.card{
+    width: 80%;
+    margin:6% 10%;
+    height: 600px;
+    opacity: 0.4;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    filter: brightness(0.9);
+}
+.card:hover{
+    transform: scale(1.03);
+    transition:0.6s;
+    opacity: 0.6;
+}
+.titles{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.login{
+  
+   
+    text-align: center;
+}
+.loginTitle{
+    font-weight:1000;
+    font-size: xx-large;
+    font-family:  sans-serif;
+}
+.inp1{
+    color: black;
+    width: 100%;
+}
+.inp1::placeholder{
+    color: black;
+   
+}
+.inp1:hover{
+    transform: scale(1.10);
+    transition:0.4s;
+}
+.btn1{
+    width: 90%;
+    background-color: black;
+    opacity: 0.9;
+    color: white;
+}
+.btn1:hover{
+    transform: scale(1.10);
+    transition:0.6s;
+    font-size: large;
+
+}
+.anchor:hover{
+    transform: scale(1.10);
+    transition:0.6s;
+    font-size: medium;
+   
+}
+.anchor{
+    font-weight: bolder;
+}
