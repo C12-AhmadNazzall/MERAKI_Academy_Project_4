@@ -8,6 +8,7 @@ const creatNewPost = (req, res) => {
     image,
     likes: 0,
     user: req.token.userId,
+    likeClicked : false
   });
   post
     .save()
@@ -116,4 +117,25 @@ const DeleteById = (req,res)=>{
         })
     })
 }
-module.exports = { creatNewPost, getPostById , getAllPosts , UpdatePostById , DeleteById};
+const clickLikes = (req,res)=>{
+
+  postsModel.findByIdAndUpdate(
+    {_id:req.params.id},{likeClicked : req.body.likeClicked }
+    
+
+  ).then((response)=>{
+  console.log(response);
+  
+   
+    res.status(201).json({
+      message:'Like Clicked',
+      res : response
+    })
+  }).catch((err)=>{
+    console.log(err);
+    
+  })
+  
+}
+
+module.exports = { creatNewPost, getPostById , getAllPosts , UpdatePostById , DeleteById , clickLikes};
