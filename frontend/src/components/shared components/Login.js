@@ -39,7 +39,7 @@ const Login = () => {
                  
                   setinput({email: "" , password: ""});
                   navigate("/navbar");
-                  console.log(res);
+                
                 })
                 .catch(function (err) {
                   console.log(err);

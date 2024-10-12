@@ -9,6 +9,7 @@ const creatComment = (req, res) => {
   const newComment = new commentModel({
     comment,
     commenter,
+    post : req.params.id
   });
   newComment
     .save()

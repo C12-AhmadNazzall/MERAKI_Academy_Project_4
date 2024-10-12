@@ -60,7 +60,7 @@ const getPostById = (req, res) => {
 const getAllPosts = (req,res)=>{
     postsModel.find({})
     .populate("user")
-    .populate("comments")
+    .populate({path : "comments" , populate : {path : "commenter"}})
     .then((response)=>{
         res.status(200).json({
             Posts : response
@@ -124,7 +124,7 @@ const clickLikes = (req,res)=>{
     
 
   ).then((response)=>{
-  console.log(response);
+ 
   
    
     res.status(201).json({
@@ -137,5 +137,20 @@ const clickLikes = (req,res)=>{
   })
   
 }
-
-module.exports = { creatNewPost, getPostById , getAllPosts , UpdatePostById , DeleteById , clickLikes};
+const commentClick = (req,res) =>{
+  postsModel.findByIdAndUpdate(
+    {_id:req.params.id},{commentClicked : req.body.commentClicked }
+  ).then((response)=>{
+   
+     
+     
+      res.status(201).json({
+        message:'comment Clicked',
+        res : response
+      })
+    }).catch((err)=>{
+      console.log(err);
+      
+    })
+}
+module.exports = { creatNewPost, getPostById , getAllPosts , UpdatePostById , DeleteById , clickLikes , commentClick};
