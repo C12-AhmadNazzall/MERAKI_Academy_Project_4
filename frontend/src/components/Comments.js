@@ -6,13 +6,14 @@ import { CloseOutlined } from "@ant-design/icons";
 import axios from "axios";
 
 const Comments = () => {
+    const user = JSON.parse(localStorage.getItem('User'))
     const postId = localStorage.getItem('postId')
   const token = localStorage.getItem("token");
   const { comment, setcomment } = useContext(commentContext);
   const [element, setelement] = useState({});
   const commnetShow = JSON.parse(localStorage.getItem("comment")) || [];
   const [newComment, setnewComment] = useState({ comment: "", post: "" });
-
+    
   return (
     <div className="comments">
       <div>
@@ -40,19 +41,19 @@ const Comments = () => {
       {commnetShow?.map((elem, ind) => {
         return (
           <div className="commentMessage">
-            {elem.commenter.image ? (
-              <image
-                src={elem.commenter.image}
-                className="commentUserImage"
-              ></image>
-            ) : (
-              <Avatar
+            {elem.commenter.image === undefined ? <Avatar
                 className="commentUserImage"
                 src={
                   "https://cdn.pixabay.com/photo/2017/07/18/23/23/user-2517433_1280.png"
                 }
               />
-            )}
+              : <Avatar
+              className="commentUserImage"
+              src={
+                elem.commenter.image
+              }
+            />
+            }
             <h3 className="commenter">{elem.commenter.userName}</h3>
             <p className="commenterComment">{elem.comment}</p>
           </div>

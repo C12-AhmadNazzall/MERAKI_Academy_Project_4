@@ -49,10 +49,12 @@
 .home:hover  {
     transform: scale(1.3);
     transition:0.4s;
+    color: blue;
 }
 .settings:hover{
     transform: scale(1.3);
     transition:0.4s;
+    color: red;
 }
 .postUserimage{
     width: 50px;

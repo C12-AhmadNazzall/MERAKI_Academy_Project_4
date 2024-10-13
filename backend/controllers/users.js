@@ -3,13 +3,14 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const register = (req, res) => {
-  const { userName, email, password, phoneNumber } = req.body;
+  const { userName, email, password, phoneNumber , image} = req.body;
   const user = new userModel({
     userName,
     email,
     password,
     phoneNumber,
     role: "6702e78491ebbce271d05d93",
+    image 
   });
   
   user
@@ -63,6 +64,7 @@ const Login = (req, res) => {
           user: result,
           message: `LogIn Successfully`,
           token: token,
+          user : result
         });
       } catch (error) {}
     })

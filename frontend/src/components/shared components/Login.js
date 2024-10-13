@@ -36,6 +36,8 @@ const Login = () => {
               .then(function (res) {
                   localStorage.setItem('token',res.data.token)
                   settoken(res.data.token)
+                  const userArray = JSON.stringify(res.data)
+                 localStorage.setItem('User' , userArray)
                  
                   setinput({email: "" , password: ""});
                   navigate("/navbar");

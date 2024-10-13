@@ -1,12 +1,13 @@
 import React ,{useState , useContext , useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import {HomeOutlined  , SettingOutlined , SearchOutlined ,PlusOutlined , LikeOutlined ,MessageOutlined  }  from '@ant-design/icons'
+import {HomeOutlined  , LoginOutlined  , SearchOutlined ,PlusOutlined , LikeOutlined ,MessageOutlined  }  from '@ant-design/icons'
 import { Avatar  } from "antd";
 import "./navbar.css";
 import axios from "axios";
 import { commentContext } from "../../App";
 import Comments from "../Comments";
 const Navbar = () => {
+    const user = JSON.parse(localStorage.getItem('User'))
     const postid = localStorage.getItem('postId') || ''
     const {comment , setcomment} = useContext(commentContext)
     const navigate = useNavigate()
@@ -29,9 +30,13 @@ const Navbar = () => {
     <div className='navbar'>
         
         <div className="head">
-        <Avatar className="userimage" src={"https://cdn.pixabay.com/photo/2017/07/18/23/23/user-2517433_1280.png"}/>
+           
+            {user.user.image === undefined ? <Avatar className="userimage" src={"https://cdn.pixabay.com/photo/2017/07/18/23/23/user-2517433_1280.png"}/> :  <Avatar className="userimage" src={user.user.image}/>}
+       
         <div className="titel2">
         <HomeOutlined className="home" onClick={(e)=>{
+            console.log(user.user);
+            
             if (postid !== '') {
                 
             
@@ -55,9 +60,13 @@ const Navbar = () => {
             
         }}/>
         <SearchOutlined className="home"/>
-        <PlusOutlined className="home"/>
+        <PlusOutlined className="home" onClick={(e)=>{
+            navigate('/CreatePost')
+        }}/>
         </div>
-        <SettingOutlined className="settings"/>
+        <LoginOutlined className="settings" onClick={(e)=>{
+            navigate('/')
+        }}/>
         
         </div>
         {posts?.map((elem , ind)=>{
@@ -68,7 +77,8 @@ const Navbar = () => {
                     <>
            <div className="headerPost">
                 <span>
-                 {elem.user.image ? <image src={elem.user.image} className="postUserImage"></image> : <Avatar className="postUserimage" src={"https://cdn.pixabay.com/photo/2017/07/18/23/23/user-2517433_1280.png"}/>}
+                {elem.user.image === undefined ? <Avatar className="postUserimage" src={"https://cdn.pixabay.com/photo/2017/07/18/23/23/user-2517433_1280.png"}/> :  <Avatar className="postUserimage" src={elem.user.image}/>}
+                 
                  <h3 className="userName">{elem.user.userName}</h3>
                  </span>
                 <h3 className="paragraph">{elem.paragraph}</h3>
