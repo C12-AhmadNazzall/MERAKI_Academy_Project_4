@@ -1,16 +1,18 @@
 const userModel = require("../models/userSchema");
 const bcrypt = require("bcrypt");
+const { response } = require("express");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const register = (req, res) => {
-  const { userName, email, password, phoneNumber , image} = req.body;
+  const { userName, email, password, phoneNumber , image ,posts} = req.body;
   const user = new userModel({
     userName,
     email,
     password,
     phoneNumber,
     role: "6702e78491ebbce271d05d93",
-    image 
+    image ,
+    posts
   });
   
   user
@@ -33,6 +35,7 @@ const Login = (req, res) => {
   userModel
     .findOne({ email })
     .populate("role", "-_id -__v")
+    .populate({path : "posts" , populate:{path:"comments" }})
     .then(async (result) => {
       if (!res) {
         return res.status(403).json({
@@ -74,4 +77,38 @@ const Login = (req, res) => {
       });
     });
 };
-module.exports = { register, Login };
+const UpdateUser = (req,res)=>{
+  const {userName , image} = req.body
+  userModel.findByIdAndUpdate(
+    req.params.id , {userName , image})
+    .then((response)=>{
+      res.status(201).json({
+          message : "Updated Successfully",
+          res : response
+      })
+  }).catch((err)=>{
+      res.status(500).json({
+          err : err
+      })
+  })
+  
+}
+const getAllUsers = (req,res)=>{
+  userModel.find({}).then((response)=>{
+    res.status(200).json({
+      res:response
+    })
+    
+  })
+}
+const getUserById = (req,res)=>{
+  userModel.findById(req.params.id)
+  .populate({path : "posts" , populate:{path:"comments" , populate:{path : "commenter"}}})
+  .then((response)=>{
+    res.status(200).json({
+      res:response
+    })
+    
+  })
+}
+module.exports = { register, Login , UpdateUser ,getAllUsers , getUserById};

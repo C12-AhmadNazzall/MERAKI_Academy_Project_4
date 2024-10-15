@@ -31,6 +31,7 @@ const CreatePost = () => {
         console.log(err);
         
     }) 
+    
     navigate('/Navbar')
 }}>Post</Button>
     </div>

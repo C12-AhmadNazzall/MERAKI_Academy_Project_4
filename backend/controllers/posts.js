@@ -1,6 +1,7 @@
 const { response } = require("express");
 const postsModel = require("../models/postsSchema");
-const userModel = require('../models/userSchema')
+const userModel = require('../models/userSchema');
+const { post } = require("../routes/posts");
 const creatNewPost = (req, res) => {
   const { paragraph, image } = req.body;
   const post = new postsModel({
@@ -18,7 +19,7 @@ const creatNewPost = (req, res) => {
         userModel
         .findByIdAndUpdate(
           { _id: req.token.userId },
-          { $push: { Posts: response._id } },
+          { $push: { posts: response._id } },
           { new: true }
         )
 
@@ -63,7 +64,7 @@ const getAllPosts = (req,res)=>{
     .populate({path : "comments" , populate : {path : "commenter"}})
     .then((response)=>{
         res.status(200).json({
-            Posts : response
+            posts : response
         })
     }).catch((err)=>{
         res.status(404).json({
@@ -153,4 +154,13 @@ const commentClick = (req,res) =>{
       
     })
 }
-module.exports = { creatNewPost, getPostById , getAllPosts , UpdatePostById , DeleteById , clickLikes , commentClick};
+const findPost = (req,res)=>{
+  postsModel.findOne(req.body).then((response)=>{
+    res.status(200).json({
+      res:res
+    })
+  }).catch((err)=>{
+    err
+  })
+}
+module.exports = { creatNewPost, getPostById , getAllPosts , UpdatePostById , DeleteById , clickLikes , commentClick , findPost};

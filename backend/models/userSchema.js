@@ -7,9 +7,9 @@ const usersSchema = new mongoose.Schema({
 
   password: { type: String, required: true },
 
-  followers: { type: mongoose.Schema.Types.ObjectId, ref: "followers" },
+  followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "followers" }],
 
-  Posts: { type: mongoose.Schema.Types.ObjectId, ref: "posts" },
+  posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "posts" }],
 
   role: { type: mongoose.Schema.Types.ObjectId, ref: "roles" },
 

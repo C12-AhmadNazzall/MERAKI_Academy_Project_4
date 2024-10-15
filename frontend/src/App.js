@@ -5,6 +5,7 @@ import Login from "./components/shared components/Login";
 import { Routes, Route, Link } from "react-router-dom";
 import Register from "./components/shared components/Register";
 import Navbar from "./components/shared components/Navbar";
+import Profile from "./components/Profile";
 export const commentContext = createContext()
 const App = () => {
   const [comment , setcomment] = useState([])
@@ -17,6 +18,7 @@ const App = () => {
        <Route path="/" element={<Login />} />
        <Route path="/Navbar" element={<Navbar />} />
        <Route path="/CreatePost" element={<CreatePost />} />
+       <Route path="/profile" element={<Profile />} />
     </Routes>
        
   

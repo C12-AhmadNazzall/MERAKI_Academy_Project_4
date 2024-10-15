@@ -36,7 +36,7 @@ const Login = () => {
               .then(function (res) {
                   localStorage.setItem('token',res.data.token)
                   settoken(res.data.token)
-                  const userArray = JSON.stringify(res.data)
+                  const userArray = JSON.stringify(res.data.user)
                  localStorage.setItem('User' , userArray)
                  
                   setinput({email: "" , password: ""});

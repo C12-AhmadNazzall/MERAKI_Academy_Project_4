@@ -1,14 +1,30 @@
-.comments{
+@media screen and (min-width: 1500px) {
+    .comments{
+        transition:0.4s;
+        margin: 0 25% ;
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        height:700px;
+        width: 50%;
+        position: relative;
+        
+        
+    }
+  }
+  
+
+.commentsLength{
     transition:0.4s;
-    margin: 0 0 0 0 ;
+    margin: 0 25% ;
     display: flex;
     flex-direction: column;
     background-color: white;
-    height: 500px;
+    width: 50%;
 }
 .commentMessage{
   color: rgb(50,50,50);
-  width: 100%;
+  
   border-bottom: solid darkgray;
   height: 70px;
 }
@@ -17,24 +33,24 @@
     height: 50px;
     position: relative;
     top: 1%;
-   left: -46%;
+   
     cursor: pointer;
 }
 .commenter{
     position: relative;
-    top: -75%;
-    left: -38%;
+    top: -80%;
+    left: 8%;
 }
 .commenterComment{
     position: relative;
     top: -130%;
-    left: -10%;
+    left: 30%;
 }
 .close{
     color: rgb(50,50,50);
     font-size: x-large;
     position: relative;
-    left: 47%;
+    left: 95%;
     top: -50%;
     cursor: pointer;
 }
@@ -44,12 +60,14 @@
     transition:0.2s;
 }
 .commentshead{
+    position: relative;
     height: 1px;
+    left: 40%;
 }
 .commentInput{
     border: solid rgb(101,99,110);
     width: 50%;
-    left: -17%;
+    left: 1%;
     top: 20%;
    
 }
@@ -69,6 +87,7 @@
 }
 .commentButton{
 top: 20%;
+left: 20%;
 }
 .commentButton:hover{
     transform: scale(1.03);

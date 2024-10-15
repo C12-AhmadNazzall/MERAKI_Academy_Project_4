@@ -4,7 +4,7 @@ import "./comment.css";
 import { Avatar, Button, Input } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 const Comments = () => {
     const user = JSON.parse(localStorage.getItem('User'))
     const postId = localStorage.getItem('postId')
@@ -13,16 +13,16 @@ const Comments = () => {
   const [element, setelement] = useState({});
   const commnetShow = JSON.parse(localStorage.getItem("comment")) || [];
   const [newComment, setnewComment] = useState({ comment: "", post: "" });
-    
-  return (
-    <div className="comments">
+const navigate = useNavigate()
+  return (<><br></br><br></br>
+    <div className={commnetShow.length < 5 ? 'comments' : "commentsLength"}>
       <div>
         <h2 className="commentshead">Comments ...</h2>
         <CloseOutlined
           className="close"
           onClick={(e) => {
             setcomment([]);
-
+            localStorage.setItem('commentClicked' , false)
             axios
               .put(
                 `http://localhost:5000/posts/${postId}/commentPage`,
@@ -97,12 +97,15 @@ const Comments = () => {
                 console.log(err);
                 
             })
+         
+            
           }}
         >
           Comment
         </Button>
       </div>
     </div>
+    </>
   );
 };
 
