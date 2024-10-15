@@ -19,10 +19,11 @@ const addFollower = (req, res) => {
             {_id : req.params.id ,},
             { $push: { followers: response.user } },
             { new: true }
-        ).then(()=>{
+        ).then((response)=>{
             res.status(201).json({
                 message : "Follower Added Successfully",
-                follower : response.user
+                follower : response.user,
+                res : response
             })
         })
     })
@@ -33,19 +34,16 @@ const addFollower = (req, res) => {
     })}
 };
 const deleteFolower = (req,res)=>{
-   
-    followersModel.findByIdAndDelete(req.params.id)
-    .then((response)=>{
-      
-        
-        userModel.findByIdAndUpdate(
-            {_id : req.params.userId ,},
-            { $pull: { followers: response.user } },
-            { new: true }
-        ).then((resp)=>{
-            res.status(201).json({
-                message : "Follower Deleted Successfully"
-            })
+    const user = req.token.userId;
+    
+    userModel.findByIdAndUpdate(
+        {_id : req.params.userId ,},
+        { $pull: { followers: user } },
+        { new: true }
+    ).then((resp)=>{
+        res.status(201).json({
+            message : "Follower Deleted Successfully",
+            res : resp
         })
     }).catch((err)=>{
         console.log(err);

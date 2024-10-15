@@ -22,7 +22,7 @@ const Navbar = () => {
         axios.get('http://localhost:5000/posts' ,{
             headers: { Authorization: token }
         }).then((res)=>{
-            setposts(res.data.posts)
+            setposts(res.data.posts.reverse())
             
         }).catch((err)=>{
             console.log(err);
@@ -96,7 +96,7 @@ const Navbar = () => {
             
         }}/>
         <SearchOutlined className="home" onClick={(e)=>{
-            navigate('/serch')
+            navigate('/search')
         }}/>
         <PlusOutlined className="home" onClick={(e)=>{
             navigate('/CreatePost')

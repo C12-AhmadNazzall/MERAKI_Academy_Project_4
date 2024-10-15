@@ -6,11 +6,13 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { HomeOutlined, LikeOutlined, LoginOutlined, MessageOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons'
 import Comments from './Comments'
-const Profile = () => {
+import './follow.css'
+const UserProfile = () => {
+    const isLogin = JSON.parse(localStorage.getItem('User'))
     const [userstate , setuserstate] = useState([])
     const [rePosts , setrePosts] = useState([])
     const {comment , setcomment} = useContext(commentContext)
-    const user = JSON.parse(localStorage.getItem('User'))
+    const user = JSON.parse(localStorage.getItem('serarchUser'))
     const [posts , setposts] = useState([])
    
     const navigate = useNavigate()
@@ -22,7 +24,7 @@ const Profile = () => {
        useEffect(()=>{
         axios.get(`http://localhost:5000/users/${user._id}` ).then((res)=>{
             const userString = JSON.stringify(res.data.res)
-           localStorage.setItem('User' ,userString)
+           localStorage.setItem('serarchUser' ,userString)
          setuserstate(res.data.res)
          setrePosts(res.data.res.posts.reverse())
         }).catch((err)=>{
@@ -72,37 +74,34 @@ const Profile = () => {
               }
             />
             }
-            {isClicked ? < ><br></br><br></br><Input className='imageEdit' placeholder='Image Source' onChange={(e)=>{
-                setinfo({image : e.target.value , userName : info.userName })
-            }}/></> : null}
-        <h2 className='userNameProfile'>{userstate.userName}</h2>
-        {isClicked ?<> <Input className='paragraphEdit' placeholder='User Name' onChange={(e)=>{
-                setinfo({image : info.image , userName : e.target.value })
-            }}/><br></br></> : null}
-        <br></br>   {!isClicked ? <Button className='profileButton' onClick={(e)=>{
-            setisClicked(true)
-        }}>Edit Your Informations</Button> : <Button className='profileButton' onClick={(e)=>{
-            setisClicked(false)
-            axios.put(`http://localhost:5000/users/${userstate._id}` , {
-                image : info.image , userName:info.userName
-            }).then((response)=>{
-                console.log(response);
-                axios.get(`http://localhost:5000/users/${userstate._id}`).then((res)=>{
-                    const newUser = JSON.stringify(res.data.res)
-                    localStorage.setItem('User' , newUser)
-                    navigate('/Navbar')
-                    setTimeout(() => {
-                        navigate('/profile')
-                    }, 1);
-                })
-            }).catch((err)=>{
-                console.log(err);
-                
-            })
-           
             
-        }}>Done</Button>}
-        
+        <h2 className='userNameProfile'>{userstate.userName}</h2>
+            {user.followers.includes(isLogin._id) ?  <Button className='removeFollow' onClick={(e)=>{
+                 axios.delete(`http://localhost:5000/followers/${userstate._id}` ,{
+                    headers: { Authorization: token }
+                } ).then((response)=>{
+                  
+                   
+                   
+                    
+                }).catch((err)=>{
+                    console.log(err);
+                    
+                }) 
+            }}>Remove Follow</Button> : <Button className='AddFollow' onClick={(e)=>{
+                 axios.post(`http://localhost:5000/followers/${userstate._id}`,{} ,{
+                    headers: { Authorization: token }
+                } ).then((response)=>{
+                    
+                   
+                   
+                    
+                }).catch((err)=>{
+                    console.log(err);
+                    
+                }) 
+            }}>Follow</Button>}
+        <br></br>   
            {commentClicked === 'false'? rePosts?.map((elem,ind)=>{
             return (
                 <>
@@ -125,14 +124,14 @@ const Profile = () => {
         ).then((res)=>{
             axios.get(`http://localhost:5000/users/${userstate._id}` ).then((response)=>{
                 const userString = JSON.stringify(response.data.res)
-               localStorage.setItem('User' ,userString)
+               localStorage.setItem('serarchUser' ,userString)
                
                 
             }).catch((err)=>{
                 console.log(err);
                 
             }) 
-         console.log(res);
+        
             
            
             
@@ -166,7 +165,7 @@ const Profile = () => {
        ).then((res)=>{
         axios.get(`http://localhost:5000/users/${userstate._id}` ).then((response)=>{
             const userString = JSON.stringify(response.data.rea)
-           localStorage.setItem('User' ,userString)
+           localStorage.setItem('serarchUser' ,userString)
            
             
         }).catch((err)=>{
@@ -196,4 +195,4 @@ const Profile = () => {
   )
 }
 
-export default Profile
+export default UserProfile

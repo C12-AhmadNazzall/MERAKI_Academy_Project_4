@@ -111,4 +111,26 @@ const getUserById = (req,res)=>{
     
   })
 }
-module.exports = { register, Login , UpdateUser ,getAllUsers , getUserById};
+const getUserByUserName = (req,res)=>{
+  userModel.find({userName : req.params.userName})
+  .populate("role", "-_id -__v")
+  .populate({path : "posts" , populate:{path:"comments" , populate:{path:"commenter" }}})
+  .then((response)=>{
+    if (response.length) {
+      
+      res.status(200).json({
+        res:response
+      })
+    }
+    else{
+      res.status(404).json({
+        message : 'User Not Found'
+      })
+    }
+  }).catch((err)=>{
+    res.status(500).json({
+      err:err 
+    })
+  })
+}
+module.exports = { register, Login , UpdateUser ,getAllUsers , getUserById,getUserByUserName};

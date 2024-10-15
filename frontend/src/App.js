@@ -6,6 +6,8 @@ import { Routes, Route, Link } from "react-router-dom";
 import Register from "./components/shared components/Register";
 import Navbar from "./components/shared components/Navbar";
 import Profile from "./components/Profile";
+import Search from "./components/Search";
+import UserProfile from "./components/UserProfile";
 export const commentContext = createContext()
 const App = () => {
   const [comment , setcomment] = useState([])
@@ -19,6 +21,8 @@ const App = () => {
        <Route path="/Navbar" element={<Navbar />} />
        <Route path="/CreatePost" element={<CreatePost />} />
        <Route path="/profile" element={<Profile />} />
+       <Route path="/search" element={<Search />} />
+       <Route path="/search/user/profile" element={<UserProfile />} />
     </Routes>
        
   
