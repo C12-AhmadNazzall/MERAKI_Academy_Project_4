@@ -43,7 +43,7 @@ const Navbar = () => {
         
         <div className="head">
            
-            {user.image === undefined ? <Avatar className="userimage" src={"https://cdn.pixabay.com/photo/2017/07/18/23/23/user-2517433_1280.png"} onClick={(e)=>{
+            {user.image === undefined ? <Avatar className="userimage" src={"https://cdn.pixabay.com/photo/2017/07/18/23/23/user-2517433_1280.png"}  title='Your Profile'  onClick={(e)=>{
           
                 axios.get(`http://localhost:5000/users/${user._id}` ).then((res)=>{
                     const userString = JSON.stringify(res.data.res)
@@ -55,7 +55,7 @@ const Navbar = () => {
                     
                 }) 
                 navigate('/profile')
-            }}/> :  <Avatar className="userimage" src={user.image}  onClick={(e)=>{
+            }}/> :  <Avatar className="userimage" title='Your Profile' src={user.image}  onClick={(e)=>{
               
                 axios.get(`http://localhost:5000/users/${user._id}` ).then((res)=>{
                     const userString = JSON.stringify(res.data.res)
@@ -70,7 +70,7 @@ const Navbar = () => {
             }}/>}
        
         <div className="titel2">
-        <HomeOutlined className="home" onClick={(e)=>{
+        <HomeOutlined className="home"  title='Home'  onClick={(e)=>{
             
             localStorage.setItem('commentClicked' , 'false')
             if (postid !== '') {
@@ -95,14 +95,14 @@ const Navbar = () => {
             }, 1);
             
         }}/>
-        <SearchOutlined className="home" onClick={(e)=>{
+        <SearchOutlined className="home"  title='Search'  onClick={(e)=>{
             navigate('/search')
         }}/>
-        <PlusOutlined className="home" onClick={(e)=>{
+        <PlusOutlined className="home"  title='Create Post'  onClick={(e)=>{
             navigate('/CreatePost')
         }}/>
         </div>
-        <LoginOutlined className="settings" onClick={(e)=>{
+        <LoginOutlined className="settings"  title='Log Out'  onClick={(e)=>{
             navigate('/')
         }}/>
         
@@ -111,21 +111,55 @@ const Navbar = () => {
        
         
             
-       return  <div className="posts">
+       return  <div className="posts" >
                {isClicked === 'true'? <Comments />: 
                
                <>
       <div className="headerPost">
-           <span>
-           {elem.user.image === undefined ? <Avatar className="postUserimage" src={"https://cdn.pixabay.com/photo/2017/07/18/23/23/user-2517433_1280.png"}/> :  <Avatar className="postUserimage" src={elem.user.image}/>}
+           <span className="postSpan" onClick={(e)=>{
+         
             
-            <h3 className="userName">{elem.user.userName}</h3>
+           }}>
+           {elem.user.image === undefined ? <Avatar className="postUserimage" title ={elem.user.userName+' Profile'} src={"https://cdn.pixabay.com/photo/2017/07/18/23/23/user-2517433_1280.png"} onClick={(e)=>{
+            if (elem.user._id !== user._id) {
+                
+                const postUser = JSON.stringify(elem.user)
+                localStorage.setItem('serarchUser', postUser)
+                navigate(`../search/user/profile`)
+            }
+            else{
+                navigate('../profile')
+            }
+           }}/> :  <Avatar className="postUserimage" title ={elem.user.userName+' Profile'} src={elem.user.image}  onClick={(e)=>{
+            if (elem.user._id !== user._id) {
+                
+                const postUser = JSON.stringify(elem.user)
+                localStorage.setItem('serarchUser', postUser)
+                navigate(`../search/user/profile`)
+            }
+            else{
+                navigate('../profile')
+            }
+            
+           }}/>}
+            
+            <h3 className="userName" title ={elem.user.userName+' Profile'} onClick={(e)=>{
+           if (elem.user._id !== user._id) {
+                
+            const postUser = JSON.stringify(elem.user)
+            localStorage.setItem('serarchUser', postUser)
+            navigate(`../search/user/profile`)
+        }
+        else{
+            navigate('../profile')
+        }
+           }}>{elem.user.userName}</h3>
             </span>
            <h3 className="paragraph">{elem.paragraph}</h3>
            {elem.image ? <image src={elem.image} className="postImage"></image> : null}
            </div>
     <div className="react">
-    <LikeOutlined className={elem.likeClicked ? "clickedLike" : "Like"} onClick={(e)=>{
+    <LikeOutlined className={elem.likeClicked ? "clickedLike" : "Like"}  title='Like'  onClick={(e)=>{
     
 
       
@@ -145,7 +179,8 @@ const Navbar = () => {
        }) 
       
     }}/>
-    <MessageOutlined className="comment" onClick={(e)=>{
+    <div className="commentsContainer">
+    <MessageOutlined className="comment"  title='Comments'  onClick={(e)=>{
        
        localStorage.setItem('commentClicked' , 'true')
        setcomment(elem)
@@ -167,7 +202,7 @@ const Navbar = () => {
        }) 
  
     }}/>
-    
+    <h2 className="commentsCounter">{elem.comments.length}</h2></div>
     </div>
     </>
    }

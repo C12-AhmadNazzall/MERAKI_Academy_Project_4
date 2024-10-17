@@ -44,7 +44,7 @@ const UserProfile = () => {
           
       
       
-       <HomeOutlined className="homeProfile" onClick={(e)=>{
+       <HomeOutlined className="homeProfile" title='Home' onClick={(e)=>{
            
            localStorage.setItem('commentClicked' , 'false')
         
@@ -56,7 +56,7 @@ const UserProfile = () => {
        }}/>
       
        
-       <LoginOutlined className="logout" onClick={(e)=>{
+       <LoginOutlined className="logout"  title='Log Out'  onClick={(e)=>{
            navigate('/')
        }}/>
        
@@ -76,6 +76,7 @@ const UserProfile = () => {
             }
             
         <h2 className='userNameProfile'>{userstate.userName}</h2>
+        <div className='FollowersCounter'>
             {user.followers.includes(isLogin._id) ?  <Button className='removeFollow' onClick={(e)=>{
                  axios.delete(`http://localhost:5000/followers/${userstate._id}` ,{
                     headers: { Authorization: token }
@@ -88,7 +89,7 @@ const UserProfile = () => {
                     console.log(err);
                     
                 }) 
-            }}>Remove Follow</Button> : <Button className='AddFollow' onClick={(e)=>{
+            }} title='Remove Follow'>UnFollow</Button> : <Button className='AddFollow' onClick={(e)=>{
                  axios.post(`http://localhost:5000/followers/${userstate._id}`,{} ,{
                     headers: { Authorization: token }
                 } ).then((response)=>{
@@ -100,14 +101,15 @@ const UserProfile = () => {
                     console.log(err);
                     
                 }) 
-            }}>Follow</Button>}
+            }} title='Follow'>Follow</Button>}
+            <h2 className='followersHeader' title={userstate.userName + ' Followers'}>{userstate.followers?.length}<br></br> Followers</h2></div>
         <br></br>   
            {commentClicked === 'false'? rePosts?.map((elem,ind)=>{
             return (
                 <>
                 <div className='postsProfile'>
                 <div className="headerPost">
-           <span>
+           <span title={userstate.userName + " Profile"}>
            {userstate.image === undefined ? <Avatar className="postUserimage" src={"https://cdn.pixabay.com/photo/2017/07/18/23/23/user-2517433_1280.png"}/> :  <Avatar className="postUserimage" src={userstate.image}/>}
             
             <h3 className="userName">{userstate.userName}</h3>
@@ -116,7 +118,7 @@ const UserProfile = () => {
            {elem.image ? <image src={elem.image} className="postImage"></image> : null}
            </div>
     <div className="react">
-    <LikeOutlined className={elem.likeClicked ? "clickedLike" : "Like"} onClick={(e)=>{
+    <LikeOutlined   title='Like' className={elem.likeClicked ? "clickedLike" : "Like"} onClick={(e)=>{
         axios.post(`http://localhost:5000/posts/${elem._id}/addLike`,{
             likeClicked : !elem.likeClicked
         },
@@ -147,7 +149,8 @@ const UserProfile = () => {
        
       
     }}/>
-    <MessageOutlined className="comment" onClick={(e)=>{
+     <div className="commentsContainer">
+    <MessageOutlined title='Comments' className="comment" onClick={(e)=>{
        elem.comments?.map((ele ,index)=>{
         
         
@@ -184,7 +187,7 @@ const UserProfile = () => {
        }) 
  
     }}/>
-    
+      <h2 className="commentsCounter">{elem.comments.length}</h2></div>
     </div>
     </div>
                 </>

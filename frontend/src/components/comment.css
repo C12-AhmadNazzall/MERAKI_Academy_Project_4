@@ -5,7 +5,7 @@
         display: flex;
         flex-direction: column;
         background-color: white;
-        height:700px;
+        height:500px;
         width: 50%;
         position: relative;
         
@@ -41,6 +41,7 @@
     position: relative;
     top: -80%;
     left: 8%;
+    cursor: pointer;
 }
 .commenterComment{
     position: relative;
@@ -93,4 +94,10 @@ left: 20%;
 .commentButton:hover{
     transform: scale(1.03);
     transition:0.4s;
+}
+.commentsDiv{
+    height: 700px;
+}
+.commentsLengthDiv{
+    height: auto;
 }

@@ -23,6 +23,8 @@
    height: 70px;
    cursor: pointer;
    margin: 3px 0;
+   filter: brightness(1);
+  
 }
 .settings{
    font-size: xx-large;
@@ -86,12 +88,13 @@
 .userName{
     position: relative;
     top : -8%;
-    left: -36%;
+    left: 10%;
     opacity: 0.6;
     font-size: large;
     font-weight: bolder;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     cursor: pointer;
+    width: 10%;
 }
 .headerPost{
     height: 430px;
@@ -105,21 +108,21 @@
     font-size: xx-large;
     cursor: pointer;
     position: relative;
-    top: 50%;
+    
     
 }
 .clickedLike{
     font-size: xx-large;
     cursor: pointer;
     position: relative;
-    top: 50%;
+   
     color: blue;
 }
 .comment{
     font-size: xx-large;
     cursor: pointer;
     position: relative;
-    top: 50%;
+   
 }
 .Like:hover{
     transform: scale(1.3);
@@ -134,4 +137,15 @@
     transform: scale(1.3);
     transition:0.4s;
     color: blue;
+}
+.postSpan{
+    width: 20%;
+}
+.commentsContainer{
+    display: flex;
+    flex-direction: row;
+}
+.commentsCounter{
+    position: relative;
+    left: 10%;
 }

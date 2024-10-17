@@ -29,6 +29,7 @@ const Search = () => {
       <div className="headSearch">
         {user.image === undefined ? (
           <Avatar
+          title='Your Profile'
             className="userimage"
             src={
               "https://cdn.pixabay.com/photo/2017/07/18/23/23/user-2517433_1280.png"
@@ -48,6 +49,7 @@ const Search = () => {
           />
         ) : (
           <Avatar
+           title='Your Profile'
             className="userimage"
             src={user.image}
             onClick={(e) => {
@@ -67,6 +69,7 @@ const Search = () => {
 
         <div className="titel3">
           <HomeOutlined
+           title='Home'
             className="homeSearch"
             onClick={(e) => {
               navigate("/Navbar");
@@ -75,6 +78,7 @@ const Search = () => {
         </div>
         <div className="searchDiv">
           <Input
+           title='Search'
             className="searchInput"
             placeholder="Search ..."
             onChange={(e) => {
@@ -82,6 +86,7 @@ const Search = () => {
             }}
           />
           <Button
+           title='Search'
             className="searchButton"
             onClick={(e) => {
               axios
@@ -112,17 +117,19 @@ const Search = () => {
         return (
           <div className="AllUsers">
             <Card
+           
               className="OneUser"
               cover={
                 elem.image === undefined ? (
                   <Avatar
+                  title={elem.userName + " Profile"}
                     className="searchedUserImage"
                     src={
                       "https://cdn.pixabay.com/photo/2017/07/18/23/23/user-2517433_1280.png"
                     }
                   />
                 ) : (
-                  <Avatar className="searchedUserImage" src={elem.image} />
+                  <Avatar className="searchedUserImage"   title={elem.userName + " Profile"} src={elem.image} />
                 )
               }
             onClick={(e)=>{

@@ -14,7 +14,7 @@ const Comments = () => {
   const commnetShow = JSON.parse(localStorage.getItem("comment")) || [];
   const [newComment, setnewComment] = useState({ comment: "", post: "" });
 const navigate = useNavigate()
-  return (<><br></br><br></br>
+  return (<div className={commnetShow.length < 5 ? 'commentsDiv' : "commentsLengthDiv"}><br></br><br></br>
     <div className={commnetShow.length < 5 ? 'comments' : "commentsLength"}>
       <div>
         <h2 className="commentshead">Comments ...</h2>
@@ -42,19 +42,129 @@ const navigate = useNavigate()
         return (
           <div className="commentMessage">
             {elem.commenter.image === undefined ? <Avatar
+                title={elem.commenter.userName + ' Profile'}
                 className="commentUserImage"
                 src={
                   "https://cdn.pixabay.com/photo/2017/07/18/23/23/user-2517433_1280.png"
                 }
-              />
+              onClick={(e)=>{
+              
+                if (elem.commenter._id !== user._id) {
+                    const commentUser = JSON.stringify(elem.commenter)
+                    localStorage.setItem('serarchUser',commentUser)
+                    localStorage.setItem('commentClicked' , false)
+                    axios
+                      .put(
+                        `http://localhost:5000/posts/${postId}/commentPage`,
+                        {
+                          commentClicked: false,
+                        },
+                        { headers: { Authorization: token } }
+                      )
+                      .then((res) => {})
+                      .catch((err) => {
+                        console.log(err);
+                      });
+                    navigate('../search/user/profile')
+                }
+                else{
+                    navigate('../profile')
+                    localStorage.setItem('commentClicked' , false)
+                    axios
+                      .put(
+                        `http://localhost:5000/posts/${postId}/commentPage`,
+                        {
+                          commentClicked: false,
+                        },
+                        { headers: { Authorization: token } }
+                      )
+                      .then((res) => {})
+                      .catch((err) => {
+                        console.log(err);
+                      });
+                }
+              }}/>
               : <Avatar
+              title={elem.commenter.userName + ' Profile'}
               className="commentUserImage"
               src={
                 elem.commenter.image
               }
-            />
+              onClick={(e)=>{
+              
+                if (elem.commenter._id !== user._id) {
+                    const commentUser = JSON.stringify(elem.commenter)
+                    localStorage.setItem('serarchUser',commentUser)
+                    localStorage.setItem('commentClicked' , false)
+                    axios
+                      .put(
+                        `http://localhost:5000/posts/${postId}/commentPage`,
+                        {
+                          commentClicked: false,
+                        },
+                        { headers: { Authorization: token } }
+                      )
+                      .then((res) => {})
+                      .catch((err) => {
+                        console.log(err);
+                      });
+                    navigate('../search/user/profile')
+                }
+                else{
+                    navigate('../profile')
+                    localStorage.setItem('commentClicked' , false)
+                    axios
+                      .put(
+                        `http://localhost:5000/posts/${postId}/commentPage`,
+                        {
+                          commentClicked: false,
+                        },
+                        { headers: { Authorization: token } }
+                      )
+                      .then((res) => {})
+                      .catch((err) => {
+                        console.log(err);
+                      });
+                }
+              }} />
             }
-            <h3 className="commenter">{elem.commenter.userName}</h3>
+            <h3 className="commenter" title={elem.commenter.userName + ' Profile'} onClick={(e)=>{
+              
+              if (elem.commenter._id !== user._id) {
+                  const commentUser = JSON.stringify(elem.commenter)
+                  localStorage.setItem('serarchUser',commentUser)
+                  localStorage.setItem('commentClicked' , false)
+                  axios
+                    .put(
+                      `http://localhost:5000/posts/${postId}/commentPage`,
+                      {
+                        commentClicked: false,
+                      },
+                      { headers: { Authorization: token } }
+                    )
+                    .then((res) => {})
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                  navigate('../search/user/profile')
+              }
+              else{
+                  navigate('../profile')
+                  localStorage.setItem('commentClicked' , false)
+                  axios
+                    .put(
+                      `http://localhost:5000/posts/${postId}/commentPage`,
+                      {
+                        commentClicked: false,
+                      },
+                      { headers: { Authorization: token } }
+                    )
+                    .then((res) => {})
+                    .catch((err) => {
+                      console.log(err);
+                    });
+              }
+            }}>{elem.commenter.userName}</h3>
             <p className="commenterComment">{elem.comment}</p>
           </div>
         );
@@ -105,7 +215,7 @@ const navigate = useNavigate()
         </Button>
       </div>
     </div>
-    </>
+    </div>
   );
 };
 

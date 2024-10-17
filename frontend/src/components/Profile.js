@@ -4,7 +4,7 @@ import './Profile.css'
 import { Avatar, Button, Input } from 'antd'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import { HomeOutlined, LikeOutlined, LoginOutlined, MessageOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons'
+import { HomeOutlined, LikeOutlined, LoginOutlined, MessageOutlined, PlusOutlined, SearchOutlined, UploadOutlined } from '@ant-design/icons'
 import Comments from './Comments'
 const Profile = () => {
     const [userstate , setuserstate] = useState([])
@@ -42,7 +42,7 @@ const Profile = () => {
           
       
       
-       <HomeOutlined className="homeProfile" onClick={(e)=>{
+       <HomeOutlined className="homeProfile" title='Home' onClick={(e)=>{
            
            localStorage.setItem('commentClicked' , 'false')
         
@@ -54,32 +54,45 @@ const Profile = () => {
        }}/>
       
        
-       <LoginOutlined className="logout" onClick={(e)=>{
+       <LoginOutlined className="logout" title='Log Out'  onClick={(e)=>{
            navigate('/')
        }}/>
        
        </div>
          {userstate.image === undefined ? <Avatar
                 className="ProfileImage"
+                title='Your Image' 
                 src={
                   "https://cdn.pixabay.com/photo/2017/07/18/23/23/user-2517433_1280.png"
                 }
               />
               : <Avatar
               className="ProfileImage"
+               title='Your Image'
               src={
                 userstate.image
               }
             />
             }
-            {isClicked ? < ><br></br><br></br><Input className='imageEdit' placeholder='Image Source' onChange={(e)=>{
-                setinfo({image : e.target.value , userName : info.userName })
-            }}/></> : null}
-        <h2 className='userNameProfile'>{userstate.userName}</h2>
-        {isClicked ?<> <Input className='paragraphEdit' placeholder='User Name' onChange={(e)=>{
+            {isClicked ? < ><br></br><br></br> 
+            <span title='Get Image'><UploadOutlined className='upLoad'  /> 
+            <h4 className='UploadParagraph'>Upload Image</h4></span>
+            <Input  type='file'   className='imageEdit' placeholder='Image Source' onChange={(e)=>{
+               
+                const reader = new FileReader();
+                reader.readAsDataURL(e.target.files[0])
+               reader.onload = ()=>{
+                setinfo({image : reader.result , userName : info.userName })
+               }
+                
+            }}/>
+            </> : null}
+        <h2 className='userNameProfile' title={userstate.userName}>{userstate.userName}</h2>
+        <h2 className='followersHeaderProfile' title={userstate.userName + ' Followers'}>{userstate.followers?.length}<br></br> Followers</h2>
+        {isClicked ?<> <Input className='paragraphEdit' title='Update Your User Name'placeholder='User Name' onChange={(e)=>{
                 setinfo({image : info.image , userName : e.target.value })
             }}/><br></br></> : null}
-        <br></br>   {!isClicked ? <Button className='profileButton' onClick={(e)=>{
+        <br></br>   {!isClicked ? <Button className='profileButton' title='Edit Your Informations' onClick={(e)=>{
             setisClicked(true)
         }}>Edit Your Informations</Button> : <Button className='profileButton' onClick={(e)=>{
             setisClicked(false)
@@ -108,7 +121,7 @@ const Profile = () => {
                 <>
                 <div className='postsProfile'>
                 <div className="headerPost">
-           <span>
+           <span title={userstate.userName + " Profile"}>
            {userstate.image === undefined ? <Avatar className="postUserimage" src={"https://cdn.pixabay.com/photo/2017/07/18/23/23/user-2517433_1280.png"}/> :  <Avatar className="postUserimage" src={userstate.image}/>}
             
             <h3 className="userName">{userstate.userName}</h3>
@@ -117,7 +130,7 @@ const Profile = () => {
            {elem.image ? <image src={elem.image} className="postImage"></image> : null}
            </div>
     <div className="react">
-    <LikeOutlined className={elem.likeClicked ? "clickedLike" : "Like"} onClick={(e)=>{
+    <LikeOutlined className={elem.likeClicked ? "clickedLike" : "Like"} title='Like' onClick={(e)=>{
         axios.post(`http://localhost:5000/posts/${elem._id}/addLike`,{
             likeClicked : !elem.likeClicked
         },
@@ -148,7 +161,8 @@ const Profile = () => {
        
       
     }}/>
-    <MessageOutlined className="comment" onClick={(e)=>{
+     <div className="commentsContainer">
+    <MessageOutlined title='Comments' className="comment" onClick={(e)=>{
        elem.comments?.map((ele ,index)=>{
         
         
@@ -185,7 +199,7 @@ const Profile = () => {
        }) 
  
     }}/>
-    
+      <h2 className="commentsCounter">{elem.comments.length}</h2></div>
     </div>
     </div>
                 </>
